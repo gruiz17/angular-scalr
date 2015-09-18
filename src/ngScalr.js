@@ -91,6 +91,10 @@ angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
       };
       
       $http.get(buildUrl(methodMap[category][action], data), {
+        headers: [
+          {'Access-Control-Allow-Origin':'*'},
+          {'Access-Control-Allow-Headers':'Origin, X-Requested-With, Content-Type, Accept, Authorization'},
+        ],
         transformResponse: function(data) {
           var json = x2js.xml_str2json(data);
           return json;
