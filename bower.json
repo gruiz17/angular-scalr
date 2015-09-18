@@ -5,7 +5,7 @@
     "Gabriel Ruiz <gabriel_ruiz@symantec.com>"
   ],
   "description": "Angular service for accessing Scalr API",
-  "main": "dist/scalr-angular.js",
+  "main": "dist/ngScalr.min.js",
   "keywords": [
     "scalr",
     "api",
@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.3.8"
+    "angular": "1.3.8",
+    "angular-x2js": "~0.2.0"
   }
 }

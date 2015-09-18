@@ -2,7 +2,7 @@
   "name": "angular-scalr",
   "version": "0.1.0",
   "description": "Angular Service to access Scalr API",
-  "main": "dist/ngScalar.js",
+  "main": "dist/ngScalar.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

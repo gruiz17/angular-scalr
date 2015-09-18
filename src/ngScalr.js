@@ -2,14 +2,16 @@
 
 // sha256 is minified with this module,
 // so just use it as sha256
-angular.module('ngScalr', ['scalr.config']).service('ngScalr', [
+angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
   '$http',
   '$q',
   '$log',
+  '$window',
+  'x2js',
   'SCALR_API_KEY',
   'SCALR_SECRET_KEY',
   'SCALR_API_ENDPOINT',
-  function($http, $q, $log, SCALR_API_KEY, SCALR_SECRET_KEY, SCALR_API_ENDPOINT) {
+  function($http, $q, $log, $window, x2js, SCALR_API_KEY, SCALR_SECRET_KEY, SCALR_API_ENDPOINT) {
     function Scalr() {
 
     }
@@ -29,7 +31,7 @@ angular.module('ngScalr', ['scalr.config']).service('ngScalr', [
         }
       }
 
-      var date = new Date(Date.now());
+      var date = new $window.Date($window.Date.now());
 
       var year = date.getFullYear().toString();
       var milliseconds = formatZeros(date.getMilliseconds(), true);
@@ -69,18 +71,42 @@ angular.module('ngScalr', ['scalr.config']).service('ngScalr', [
       return url;
     };
 
-    Scalr.prototype.farm = function(action, data) {
-      var methodMap = {
-        'launch': 'FarmLaunch',
-        'clone': 'FarmClone'
-      };
-    };
+    Scalr.prototype.call = function(category, action, data) {
+      var deferred = $q.defer();
 
-    Scalr.prototype.test = function() {
-      $log.log('lmao');
-      $log.log(buildTimestamp());
-      $log.log(buildSignature('FarmClone'));
-      $log.log(buildUrl('FarmLaunch', {'FarmID': '123'}))
+      // put any other farm methods here
+      var methodMap = {
+        'farm': {
+          'launch': 'FarmLaunch',
+          'clone': 'FarmClone',
+          'getstats': 'FarmGetStats',
+          'remove': 'FarmRemove',
+          'terminate': 'FarmTerminate',
+          'list': 'FarmList',
+        },
+        'orch': {
+          'gvset': 'GlobalVariableSet',
+          'gvlist': 'GlobalVariablesList'
+        }
+      };
+      
+      $http.get(buildUrl(methodMap[category][action], data), {
+        transformResponse: function(data) {
+          var json = x2js.xml_str2json(data);
+          return json;
+        }
+      }).success(function(data, status, headerFunc, config, statusText) {
+        deferred.resolve(data);
+      }).error(function(data, status, headers, config) {
+        deferred.reject({
+          data: data,
+          status: status,
+          headers: headers,
+          config: config
+        });      
+      });
+
+      return deferred.promise;
     };
 
     return new Scalr();
