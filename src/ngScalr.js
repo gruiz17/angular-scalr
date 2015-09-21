@@ -82,7 +82,7 @@ angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
           'getstats': 'FarmGetStats',
           'remove': 'FarmRemove',
           'terminate': 'FarmTerminate',
-          'list': 'FarmList',
+          'list': 'FarmsList',
         },
         'orch': {
           'gvset': 'GlobalVariableSet',
