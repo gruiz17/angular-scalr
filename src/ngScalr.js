@@ -77,12 +77,13 @@ angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
       // put any other farm methods here
       var methodMap = {
         'farm': {
+          'get': 'FarmGetDetails',
           'launch': 'FarmLaunch',
           'clone': 'FarmClone',
           'getstats': 'FarmGetStats',
           'remove': 'FarmRemove',
           'terminate': 'FarmTerminate',
-          'list': 'FarmsList',
+          'list': 'FarmsList'
         },
         'orch': {
           'gvset': 'GlobalVariableSet',
