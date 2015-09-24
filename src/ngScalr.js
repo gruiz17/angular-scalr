@@ -71,7 +71,7 @@ angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
       return url;
     };
 
-    Scalr.prototype.call = function(category, action, data) {
+    Scalr.prototype.call = function(category, action, params) {
       var deferred = $q.defer();
 
       // put any other farm methods here
@@ -91,13 +91,13 @@ angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
         }
       };
       
-      $http.get(buildUrl(methodMap[category][action], data), {
+      $http.get(buildUrl(methodMap[category][action], params), {
         transformResponse: function(data) {
           var json = x2js.xml_str2json(data);
           return json;
         }
       }).success(function(data, status, headerFunc, config, statusText) {
-        deferred.resolve(data);
+        deferred.resolve(data[methodMap[category][action] + 'Response']);
       }).error(function(data, status, headers, config) {
         deferred.reject({
           data: data,
