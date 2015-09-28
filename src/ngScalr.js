@@ -94,7 +94,6 @@ angular.module('ngScalr', ['scalr.config', 'cb.x2js']).service('ngScalr', [
       $http.get(buildUrl(methodMap[category][action], params), {
         transformResponse: function(data) {
           var json = x2js.xml_str2json(data);
-          json.ID = parseInt(json.ID, 10);
           return json;
         }
       }).success(function(data, status, headerFunc, config, statusText) {

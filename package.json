@@ -1,6 +1,6 @@
 {
   "name": "angular-scalr",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Angular Service to access Scalr API",
   "main": "dist/ngScalar.min.js",
   "scripts": {
